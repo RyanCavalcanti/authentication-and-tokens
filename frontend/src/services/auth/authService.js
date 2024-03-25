@@ -1,21 +1,17 @@
 import { httpClient } from "../../infra/HttpClient/httpClient";
+import { tokenService } from "./tokenService";
 
 export const authService = {
   async login({ username, password }) {
-    try {
-      const response = await httpClient(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login`, {
+    return httpClient(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login`, {
         method: 'POST',
         body: { username, password }
-      });
+      }).then(async (respostaDoServidor) => {
+        if(!respostaDoServidor.ok) throw new Error('Usuário ou senha inválidos!')
+        const body = respostaDoServidor.body;
 
-      if (!response.ok) {
-        throw new Error("Usuário ou senha inválidos");
-      }
-
-      return response.body;
-    } catch (error) {
-      throw new Error("Erro ao efetuar login: " + error.message);
-    }
+        tokenService.save(body.data.access_token);
+      })
   }
 };
 

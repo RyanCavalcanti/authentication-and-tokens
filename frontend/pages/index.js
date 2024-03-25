@@ -31,7 +31,8 @@ export default function HomeScreen() {
         }).then(() => {
           router.push("/auth-page-ssr");
           // router.push("/auth-page-static");
-        }).catch(() => {
+        }).catch((erro) => {
+          console.log(erro)
           alert("Usuário ou a senha estão inválidos")
         })
       }}>
