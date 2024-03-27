@@ -1,11 +1,10 @@
-import { tokenService } from "../src/services/auth/tokenService";
-import nookies from 'nookies'
+import { withSession } from "../src/services/auth/session";
 
 function authPageSSR(props) {
-  return(
+  return (
     <div>
       <h1>
-        Auth Page Server Side Render 
+        Auth Page Server Side Render
       </h1>
       <pre>
         {JSON.stringify(props, null, 2)}
@@ -13,17 +12,14 @@ function authPageSSR(props) {
     </div>
   )
 }
-export default authPageSSR
+export default authPageSSR;
 
-export async function getServerSideProps(ctx) {
-  const cookies = nookies.get(ctx);
-  console.log(cookies);
-
+export const getServerSideProps = withSession((ctx) => {
   return {
     props: {
-      token: tokenService.get(ctx),
-    },
+      session: ctx.req.session,
+    }
   }
-}
+})
 
 
