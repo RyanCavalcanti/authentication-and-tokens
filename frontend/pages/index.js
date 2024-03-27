@@ -29,8 +29,8 @@ export default function HomeScreen() {
           username: valores.usuario,
           password: valores.password,
         }).then(() => {
-          // router.push("/auth-page-ssr");
-          router.push("/auth-page-static");
+          router.push("/auth-page-ssr");
+          // router.push("/auth-page-static");
         }).catch((erro) => {
           console.log(erro)
           alert("Usuário ou a senha estão inválidos")
